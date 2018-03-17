@@ -158,7 +158,7 @@ class DBHelper {
     if (size === 'sm') suffix = '_sm';
     else if (size === 'md') suffix = '_md';
     let newImage = image.replace('.', suffix + '.');
-    return ('/img/' + newImage);
+    return ('img/' + newImage);
   }
 
   /**
