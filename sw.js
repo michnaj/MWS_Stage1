@@ -64,28 +64,24 @@ self.addEventListener('activate', function (event) {
 });
 
 self.addEventListener('fetch', function(event) {
-  // Google Maps handler
-  if (event.request.url.indexOf('https://maps.googleapis.com/') == 0) {
-    event.respondWith(
-      fetch(event.request)
-    )
-  } else {
-    event.respondWith(
-      caches.match(event.request).then(function(response) {
-        if (response) return response;
-
+  event.respondWith(
+    caches.match(event.request).then(function(response) {
+      if (response) {
+        return response;
+      } else {
         return fetch(event.request).then(function(response) {
-          // Cache restaurant's info pages
-          if (response.status == 200 && event.request.url.includes('restaurant.html?id=')) {
-            caches.open(staticCacheName).then(function (cache) {
-              let fullURL = event.request.url;
-              let url = fullURL.slice(fullURL.indexOf(`${repository}/restaurant.html`), fullURL.length);
-              return cache.add(url);
-            })
-          };
+          let responseClone = response.clone();
+          caches.open(staticCacheName).then(function(cache) {
+            cache.put(event.request, responseClone);
+          });
           return response;
+        }).catch(function() {
+          return new Response('<h1>Connection error!</h1>'
+            + '<p>Sorry, Information is not available. Check your Internet coonnection!</p>', {
+            headers: {'Content-Type': 'text/html'}
+          });
         })
-      })
-    )
-  }
+      }
+    })
+  )
 });
