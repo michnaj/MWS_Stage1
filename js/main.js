@@ -3,6 +3,7 @@ let restaurants,
   cuisines
 var map
 var markers = []
+const repository = '/MWS_Stage1';
 
 /**
  * Fetch neighborhoods and cuisines as soon as the page is loaded.
@@ -178,3 +179,17 @@ addMarkersToMap = (restaurants = self.restaurants) => {
     self.markers.push(marker);
   });
 }
+
+/**
+ * Service Worker
+ */
+function registerServiceWorker() {
+  if (!navigator.serviceWorker) return;
+  navigator.serviceWorker.register(`${repository}/sw.js`,  {scope: `${repository}/`}).then(function(reg) {
+    return;
+  }).catch(function(err) {
+    console.log('ServiceWorker registration failed!');
+  });
+}
+
+registerServiceWorker();
