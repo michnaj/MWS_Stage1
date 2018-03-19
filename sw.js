@@ -64,20 +64,28 @@ self.addEventListener('activate', function (event) {
 });
 
 self.addEventListener('fetch', function(event) {
-  event.respondWith(
-    caches.match(event.request).then(function(response) {
-      if (response) return response;
+  // Google Maps handler
+  if (event.request.url.indexOf('https://maps.googleapis.com/') == 0) {
+    event.respondWith(
+      fetch(event.request)
+    )
+  } else {
+    event.respondWith(
+      caches.match(event.request).then(function(response) {
+        if (response) return response;
 
-      return fetch(event.request).then(function(response) {
-        if (response.status == 200 && event.request.url.includes('restaurant.html?id=')) {
-          caches.open(staticCacheName).then(function (cache) {
-            let fullURL = event.request.url;
-            let url = fullURL.slice(fullURL.indexOf(`${repository}/restaurant.html`), fullURL.length);
-            return cache.add(url);
-          })
-        };
-        return response;
+        return fetch(event.request).then(function(response) {
+          // Cache restaurant's info pages
+          if (response.status == 200 && event.request.url.includes('restaurant.html?id=')) {
+            caches.open(staticCacheName).then(function (cache) {
+              let fullURL = event.request.url;
+              let url = fullURL.slice(fullURL.indexOf(`${repository}/restaurant.html`), fullURL.length);
+              return cache.add(url);
+            })
+          };
+          return response;
+        })
       })
-    })
-  )
+    )
+  }
 });
