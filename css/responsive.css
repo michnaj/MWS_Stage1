@@ -3,10 +3,10 @@
 
 @media screen and (min-width: 576px) {
   /* ====================== Navigation ====================== */
-  nav h1 .symbol {
+  #heading-nav h1 .symbol {
     font-size: 22pt;
   }
-  nav h1 a {
+  #heading-nav h1 a {
     font-size: 20pt;
     letter-spacing: 10px;
   }
@@ -14,17 +14,17 @@
 
 @media screen and (min-width: 768px) {
   /* ====================== Navigation ====================== */
-  nav h1 .symbol {
+  #heading-nav h1 .symbol {
     font-size: 28pt;
   }
-  nav h1 a {
+  #heading-nav h1 a {
     font-size: 24pt;
     letter-spacing: 10px;
   }
 }
 
 @media screen and (min-width: 1200px) {
-  #breadcrumb {
+  .breadcrumb-nav {
     width: 50%;
   }
   #restaurant-container {
