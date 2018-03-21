@@ -414,6 +414,10 @@ header {
 #restaurant-hours tr:nth-child(odd) {
   background: #ffc14d;
 }
+#restaurant-hours tr:focus {
+  outline: 3px solid red;
+  background: #fcc;
+}
 #restaurant-hours td {
   padding: 6px 10px;
   color: #555;
